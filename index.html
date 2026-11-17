@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HouseMate — Share bills, not stress</title>
+<style>
+:root{--green:#176b45;--green2:#2f9e62;--mint:#e3f6d9;--cream:#fffbea;--ink:#173b2a;--muted:#64766d;--line:#d9e8d3;--white:#fff;--orange:#ffd447;--shadow:0 12px 32px rgba(24,53,42,.09)}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+button,input,select{font:inherit}button{cursor:pointer}.wrap{max-width:1080px;margin:auto;padding:0 22px}
+header{padding:22px 0;border-bottom:1px solid var(--line);background:rgba(251,248,239,.92)}.nav{display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{font-size:1.25rem;font-weight:850;letter-spacing:-.04em;display:flex;align-items:center;gap:9px}.brand-mark{width:34px;height:34px;border-radius:11px;background:var(--green);color:white;display:grid;place-items:center;font-weight:900}.tag{font-size:.8rem;color:var(--green);font-weight:800;background:#f5df68;padding:7px 11px;border-radius:99px}
+.hero{padding:52px 0 34px;display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center}.eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--green2);font-weight:850}.hero h1{font-size:clamp(2.5rem,6vw,4.6rem);line-height:1.02;letter-spacing:-.065em;margin:13px 0 18px;max-width:680px}.hero h1 span{color:var(--green2)}.hero p{font-size:1.08rem;color:var(--muted);max-width:570px;margin:0 0 23px}.primary,.secondary{border:0;border-radius:13px;padding:13px 18px;font-weight:800;min-height:48px}.primary{background:var(--green);color:white}.primary:hover{background:#10573c}.secondary{background:#f5df68;color:#29452f}.hero-note{font-size:.82rem;color:var(--muted);margin-top:12px}.hero-card{background:linear-gradient(140deg,#176b45,#2f9e62);color:white;padding:25px;border-radius:24px;box-shadow:var(--shadow);transform:rotate(1deg)}.hero-card small{color:#cce6d6}.hero-card h2{font-size:2rem;margin:7px 0 18px;letter-spacing:-.04em}.mini-row{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(255,255,255,.2);gap:12px}.mini-row strong{white-space:nowrap}
+main{padding:10px 0 60px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:22px 0 16px}.section-head h2{font-size:1.7rem;letter-spacing:-.04em;margin:4px 0}.section-head p{color:var(--muted);margin:0;font-size:.94rem}.dashboard{display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.panel{background:white;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow)}.panel h3{margin:0 0 5px;font-size:1.12rem}.panel-title-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.panel-title-row .sub{margin-bottom:14px}.add-person{padding:9px 12px;min-height:40px;font-size:.82rem}.sub{color:var(--muted);font-size:.88rem;margin:0 0 17px}.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:17px 0}.stat{background:var(--cream);padding:13px;border-radius:14px}.stat span{display:block;color:var(--muted);font-size:.78rem}.stat strong{font-size:1.35rem;letter-spacing:-.03em}.person-list{display:grid;gap:10px}.person{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;background:#fbfcf9;border:1px solid var(--line);border-radius:13px}.person-left{display:flex;align-items:center;gap:10px;min-width:0}.avatar{width:36px;height:36px;border-radius:50%;background:var(--mint);color:var(--green);display:grid;place-items:center;font-weight:850;flex:none}.person-name{font-weight:750}.person-detail{font-size:.78rem;color:var(--muted)}.amount{font-weight:850;white-space:nowrap}.status{font-size:.72rem;border-radius:99px;padding:4px 8px;background:#fff1d9;color:#855313;font-weight:800}.status.paid{background:#e4f4e9;color:#176b4b}
+.bill-list{display:grid;gap:10px}.bill-card{border:1px solid var(--line);border-radius:13px;overflow:hidden}.bill{padding:13px;border:0;border-radius:0;display:flex;justify-content:space-between;gap:12px;align-items:center}.bill-title{font-weight:800}.bill-meta{font-size:.78rem;color:var(--muted)}.bill-right{text-align:right;white-space:nowrap}.bill-right strong{display:block}.bill-right button{border:0;background:transparent;color:var(--green);font-size:.78rem;font-weight:800;padding:5px 0}
+.payment-list{padding:0 12px 12px;background:#fbfcf9}.payment-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 4px;border-top:1px solid var(--line)}.payment-row>div{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.pay-toggle{border:0;border-radius:9px;padding:7px 10px;background:var(--green);color:#fff;font-size:.76rem;font-weight:800}.pay-toggle.undo{background:#f5df68;color:#29452f}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:.82rem;font-weight:800}.field input,.field select{width:100%;border:1px solid #cbd9ce;border-radius:11px;padding:12px;background:white;color:var(--ink);min-height:46px}.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.check{display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--cream);border-radius:10px;font-size:.88rem}.check input{accent-color:var(--green);width:17px;height:17px}.form-actions{display:flex;align-items:center;gap:12px;margin-top:15px;flex-wrap:wrap}.hint{font-size:.78rem;color:var(--muted)}.empty{color:var(--muted);font-size:.9rem;padding:15px;text-align:center;background:var(--cream);border-radius:12px}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.cta{background:#eaf4eb;border:1px solid #d4e6d7;border-radius:20px;padding:23px}.cta h3{font-size:1.35rem;margin:5px 0}.cta p{color:var(--muted);margin:0 0 15px}.trust{background:white;border:1px solid var(--line);border-radius:20px;padding:23px}.trust h3{margin:0 0 9px}.trust p{margin:7px 0;color:var(--muted);font-size:.9rem}.trust strong{color:var(--ink)}footer{padding:22px 0 35px;color:var(--muted);font-size:.78rem;text-align:center}
+.notice{display:none;margin-top:12px;padding:11px 13px;border-radius:11px;background:#e4f4e9;color:#176b4b;font-weight:750;font-size:.88rem}.notice.show{display:block}
+@media(max-width:760px){.hero,.dashboard,.bottom-grid{grid-template-columns:1fr}.hero{padding-top:38px}.hero-card{transform:none}.section-head{align-items:start;flex-direction:column}.summary-grid{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.wrap{padding:0 16px}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><div class="brand"><span class="brand-mark">H</span> HouseMate</div><span class="tag">A simple house bill helper</span></div></header>
+<div class="wrap">
+<section class="hero">
+  <div><div class="eyebrow">For housemates in Rathmines and beyond</div>
+    <h1>Good vibes.<br><span>Clear bills.</span></h1>
+    <p>HouseMate keeps shared-house costs simple. Split bills, see who’s paid, and keep the group chat for the fun stuff.</p>
+    <button class="primary" onclick="document.getElementById('add-bill').scrollIntoView({behavior:'smooth'})">Add a house bill</button>
+    <div class="hero-note">A simple demo for shared homes. No bank account needed.</div>
+  </div>
+  <div class="hero-card"><small>YOUR HOUSE AT A GLANCE</small><h2>One clear list.</h2>
+    <div class="mini-row"><span>Electricity</span><strong>€120.00</strong></div>
+    <div class="mini-row"><span>Broadband</span><strong>€40.00</strong></div>
+    <div class="mini-row"><span>Gas</span><strong>€75.00</strong></div>
+    <div class="mini-row"><span>Split your way</span><strong>Your house, your crew</strong></div>
+  </div>
+</section>
+<main>
+  <div class="section-head"><div><div class="eyebrow">The proof</div><h2>Know what you owe.</h2><p>Choose a housemate to see their balance, then add or update a bill.</p></div></div>
+  <div class="dashboard">
+    <section class="panel">
+      <div class="panel-title-row"><div><h3>Household overview</h3><p class="sub">Your house crew · Add everyone who shares the bills.</p></div><button class="secondary add-person" type="button" onclick="addHousemate()">＋ Add housemate</button></div>
+      <div class="field"><label for="person-view">Show balance for</label><select id="person-view" onchange="render()"><option>Everyone</option><option>Alex</option><option>Sam</option><option>Jamie</option><option>Chris</option><option>Taylor</option></select></div>
+      <div class="summary-grid">
+        <div class="stat"><span>Total bills</span><strong id="total-bills">€235.00</strong></div>
+        <div class="stat"><span>Still to pay</span><strong id="total-due">€188.00</strong></div>
+        <div class="stat"><span>Housemates</span><strong id="housemate-count">5</strong></div>
+      </div>
+      <div id="people" class="person-list"></div>
+    </section>
+    <section class="panel">
+      <h3>Recent bills</h3><p class="sub">All bills added to this house.</p>
+      <div id="bills" class="bill-list"></div>
+    </section>
+  </div>
+  <div class="bottom-grid">
+    <section class="panel" id="add-bill">
+      <h3>Add a bill</h3><p class="sub">Enter the bill details. The amount is split equally between the people you select.</p>
+      <form id="bill-form">
+        <div class="form-grid">
+          <div class="field"><label for="bill-name">Bill type</label><select id="bill-name"><option>Electricity</option><option>Gas</option><option>Broadband</option><option>Water</option><option>Other</option></select></div>
+          <div class="field"><label for="bill-amount">Total amount (€)</label><input id="bill-amount" type="number" min="0.01" step="0.01" placeholder="e.g. 60.00" required></div>
+          <div class="field full"><label for="bill-payer">Who paid the bill?</label><select id="bill-payer"><option>Alex</option><option>Sam</option><option>Jamie</option><option>Chris</option><option>Taylor</option></select></div>
+          <div class="field full"><label>Split between</label><div class="checks" id="split-checks"></div></div>
+        </div>
+        <div class="form-actions"><button class="primary" type="submit">Add bill and split</button><span class="hint">You can select any number of housemates.</span></div>
+        <div class="notice" id="bill-notice" role="status"></div>
+      </form>
+    </section>
+    <section class="panel">
+      <h3>How it works</h3><p class="sub">Three simple steps for the whole house.</p>
+      <div class="person"><div class="person-left"><span class="avatar">1</span><div><div class="person-name">Add a bill</div><div class="person-detail">Enter the amount and who paid.</div></div></div></div>
+      <div class="person"><div class="person-left"><span class="avatar">2</span><div><div class="person-name">Split the cost</div><div class="person-detail">Choose who shares the bill.</div></div></div></div>
+      <div class="person"><div class="person-left"><span class="avatar">3</span><div><div class="person-name">Mark it paid</div><div class="person-detail">Update each person's status.</div></div></div></div>
+      <p class="hint" style="margin-top:14px">Tip: “Mark paid” is a demo record only. It does not move money.</p>
+    </section>
+  </div>
+  <div class="bottom-grid">
+    <section class="cta">
+      <div class="eyebrow">Try HouseMate</div><h3>Make the next bill easier.</h3>
+      <p>Join the demo house list and see a confirmation straight away.</p>
+      <form id="signup-form"><div class="field"><label for="signup-email">Your email</label><input id="signup-email" type="email" placeholder="you@example.com" required></div><div class="form-actions"><button class="primary" type="submit">Join the demo</button></div></form>
+      <div class="notice" id="signup-notice" role="status"></div>
+    </section>
+    <section class="trust">
+      <h3>What I stand behind</h3>
+      <p><strong>No false approval:</strong> I did not write “Approved by NCI” because this demo has not been approved by NCI.</p>
+      <p><strong>No security claims:</strong> I did not write “Bank-grade security” because this demo has not been independently tested or certified.</p>
+      <p>Instead, this demo does not hold or move money. The house can see one shared bill list, and each update is shown on screen.</p>
+    </section>
+  </div>
+</main>
+<footer>HouseMate · Practice prototype · All names and bill amounts are fictional.</footer>
+</div>
+<script>
+let names=['Alex','Sam','Jamie','Chris','Taylor'];
+let openBillId=null;
+let bills=[
+ {id:1,name:'Electricity',amount:120,payer:'Alex',members:[...names],paid:['Sam','Jamie','Chris']},
+ {id:2,name:'Broadband',amount:40,payer:'Sam',members:[...names],paid:['Alex','Jamie','Chris','Taylor']},
+ {id:3,name:'Gas',amount:75,payer:'Jamie',members:[...names],paid:[]}
+];
+const euro=n=>'€'+Number(n).toFixed(2);
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function owedBy(person){
+ let total=0,paid=0,creditors={};
+ bills.forEach(b=>{if(b.members.includes(person)&&person!==b.payer){const share=b.amount/b.members.length;total+=share;if(b.paid.includes(person))paid+=share;else creditors[b.payer]=(creditors[b.payer]||0)+share;}});
+ return {total,paid,due:total-paid,creditors};
+}
+function render(){
+ const view=document.getElementById('person-view').value;
+ const total=bills.reduce((s,b)=>s+b.amount,0);
+ const dueAll=names.reduce((s,n)=>s+owedBy(n).due,0);
+ document.getElementById('total-bills').textContent=euro(total);
+ document.getElementById('total-due').textContent=euro(dueAll);
+ document.getElementById('housemate-count').textContent=names.length;
+ const people=names.filter(n=>view==='Everyone'||n===view);
+ document.getElementById('people').innerHTML=people.map(n=>{
+  const o=owedBy(n);
+  const who=Object.entries(o.creditors).map(([person,amount])=>`Pay ${esc(person)} ${euro(amount)}`).join(' · ');
+  return `<div class="person"><div class="person-left"><span class="avatar">${n[0]}</span><div><div class="person-name">${n}${n===view?' · Your view':''}</div><div class="person-detail">Share: ${euro(o.total)} · Paid: ${euro(o.paid)}${who?' · '+who:''}</div></div></div><div style="text-align:right"><div class="amount">${euro(o.due)}</div><span class="status ${o.due<0.005?'paid':''}">${o.due<0.005?'All clear':'Still due'}</span></div></div>`;
+ }).join('');
+ document.getElementById('bills').innerHTML=bills.length?bills.slice().reverse().map(b=>{
+  const paidCount=b.members.filter(n=>n===b.payer||b.paid.includes(n)).length;
+  const expanded=openBillId===b.id;
+  const paymentRows=expanded?`<div class="payment-list">${b.members.map(n=>{
+    const isPayer=n===b.payer, isPaid=isPayer||b.paid.includes(n);
+    return `<div class="payment-row"><div><strong>${esc(n)}</strong><span class="status ${isPaid?'paid':''}">${isPayer?'Paid the bill':isPaid?'Paid':'Not paid'}</span></div>${isPayer?'<span class="hint">Bill payer</span>':`<button class="pay-toggle ${isPaid?'undo':''}" type="button" onclick="togglePaid(${b.id},'${esc(n)}')">${isPaid?'Undo':'Mark paid'}</button>`}</div>`;
+  }).join('')}</div>`:'';
+  return `<div class="bill-card"><div class="bill"><div><div class="bill-title">${esc(b.name)}</div><div class="bill-meta">Paid by ${esc(b.payer)} · ${b.members.length} people · ${paidCount}/${b.members.length} paid</div></div><div class="bill-right"><strong>${euro(b.amount)}</strong><button type="button" onclick="showPayments(${b.id})">${expanded?'Hide payments':'View payments'}</button></div></div>${paymentRows}</div>`;
+ }).join(''):'<div class="empty">No bills yet. Add the first one.</div>';
+}
+function showPayments(id){openBillId=openBillId===id?null:id;render();}
+function togglePaid(id,person){
+ const b=bills.find(x=>x.id===id);if(!b||person===b.payer)return;
+ if(b.paid.includes(person))b.paid=b.paid.filter(n=>n!==person);else b.paid.push(person);
+ render();
+}
+function addHousemate(){
+ const raw=prompt('What is your housemate’s name?');
+ if(!raw)return;
+ const name=raw.trim();
+ if(!name){alert('Please enter a name.');return;}
+ if(names.some(n=>n.toLowerCase()===name.toLowerCase())){alert('That housemate is already on the list.');return;}
+ names.push(name);
+ document.getElementById('split-checks').innerHTML=names.map(n=>`<label class="check"><input type="checkbox" value="${esc(n)}" checked> ${esc(n)}</label>`).join('');
+ ['person-view','bill-payer'].forEach(id=>{
+  const select=document.getElementById(id);const option=document.createElement('option');option.textContent=name;option.value=name;select.appendChild(option);
+ });
+ render();
+}
+document.getElementById('split-checks').innerHTML=names.map(n=>`<label class="check"><input type="checkbox" value="${esc(n)}" checked> ${esc(n)}</label>`).join('');
+document.getElementById('bill-form').addEventListener('submit',e=>{
+ e.preventDefault();const amount=Number(document.getElementById('bill-amount').value);
+ const members=[...document.querySelectorAll('#split-checks input:checked')].map(x=>x.value);
+ const payer=document.getElementById('bill-payer').value;
+ if(!Number.isFinite(amount)||amount<=0){alert('Please enter an amount above zero.');return;}
+ if(!members.length){alert('Choose at least one housemate to share this bill.');return;}
+ if(!members.includes(payer)){members.push(payer);}
+ bills.push({id:Date.now(),name:document.getElementById('bill-name').value,amount,payer,members,paid:[]});
+ document.getElementById('bill-form').reset();
+ document.querySelectorAll('#split-checks input').forEach(x=>x.checked=true);
+ const note=document.getElementById('bill-notice');note.textContent=`Bill added. ${euro(amount/members.length)} per person across ${members.length} people.`;note.classList.add('show');
+ render();
+});
+document.getElementById('signup-form').addEventListener('submit',e=>{
+ e.preventDefault();const email=document.getElementById('signup-email').value;
+ const note=document.getElementById('signup-notice');note.textContent=`Thanks! ${email} has been added to this demo sign-up. No email has been sent.`;note.classList.add('show');e.target.reset();
+});
+render();
+</script>
+</body>
+</html>
